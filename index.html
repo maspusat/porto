@@ -207,6 +207,34 @@
       cursor:pointer;
       margin:0 1rem;
     }
+
+    /* Tombol Save PDF */
+  .save-pdf-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--accent3);
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: 0.3s;
+    z-index: 1500;
+  }
+  .save-pdf-btn:hover {
+    background: var(--accent1);
+  }
+
+  /* Sembunyikan tombol di layar kecil (HP) */
+  @media (max-width: 768px) {
+    .save-pdf-btn {
+      display: none;
+    }
+  }
+
   </style>
 </head>
 <body class="light">
@@ -234,6 +262,8 @@
       <a href="#contact">Kontak</a>
     </div>
   </nav>
+
+  <button id="savePdfBtn" class="save-pdf-btn">📄 Save to PDF</button>
 
   <!-- Hero -->
   <header id="home">
@@ -464,6 +494,14 @@
   </div>
 
   <!-- Scripts -->
+
+  <script>
+    const saveBtn = document.getElementById("savePdfBtn");
+    saveBtn.addEventListener("click", () => {
+      window.print(); // buka dialog Print → pilih Save as PDF
+    });
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script>
     const toggleBtn = document.getElementById("toggleTheme");
