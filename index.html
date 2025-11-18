@@ -6,12 +6,9 @@
   <meta name="description" content="Portofolio modern elegan dengan dark/light mode, smooth scroll, slider proyek, dan ikon kontak." />
   <title>Portofolio | Atalarik</title>
 
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="icon.png">
 
-  <!-- Swiper CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     :root {
@@ -146,11 +143,61 @@
       margin:1rem 0;
       flex-grow: 1;
     }
+    
+    .swiper-slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
     .swiper-slide img {
       width:100%;
       height:100%;
       object-fit:contain;
+    }
+    
+    .card p {
+        margin-top: auto; /* Mendorong deskripsi ke bagian bawah card */
+    }
+
+    /* Certificates BARU */
+    .certificates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      text-align: center;
+    }
+    .cert-card {
+      border-radius: 10px;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.1); 
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    body.light .cert-card {
+      background: #e0e0e0;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    body.dark .cert-card {
+      background: #333d47;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+    .cert-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    }
+    .cert-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 0.8rem;
+      object-fit: cover;
+      max-height: 200px; 
+    }
+    .cert-card h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--accent2);
     }
 
     /* Contact */
@@ -266,14 +313,13 @@
   </style>
 </head>
 <body class="light">
-  <!-- Navbar -->
   <nav>
     <div class="brand">Atalarik</div>
     <div class="menu">
       <a href="#home">Home</a>
       <a href="#about">Tentang</a>
       <a href="#skills">Keahlian</a>
-      <a href="#projects">Proyek</a>
+      <a href="#certificates">Sertifikat</a> <a href="#projects">Proyek</a>
       <a href="#experience">Pengalaman</a>
       <a href="#education">Pendidikan</a>
       <a href="#contact">Kontak</a>
@@ -284,7 +330,7 @@
       <a href="#home">Home</a>
       <a href="#about">Tentang</a>
       <a href="#skills">Keahlian</a>
-      <a href="#projects">Proyek</a>
+      <a href="#certificates">Sertifikat</a> <a href="#projects">Proyek</a>
       <a href="#experience">Pengalaman</a>
       <a href="#education">Pendidikan</a>
       <a href="#contact">Kontak</a>
@@ -293,7 +339,6 @@
 
   <button id="savePdfBtn" class="save-pdf-btn">📄 Save to PDF</button>
 
-  <!-- Hero -->
   <header id="home">
     <img src="profil.jpg" alt="Foto Profil">
     <h1>Atalarik Satria Dinata</h1>
@@ -304,7 +349,6 @@
     </div>
   </header>
 
-  <!-- About -->
   <section id="about">
     <h2>Tentang Saya</h2>
     <p style="text-align:center; max-width:700px; margin:auto;">
@@ -314,7 +358,6 @@
     </p>
   </section>
 
-  <!-- Skills -->
   <section id="skills">
     <h2>Keahlian</h2>
     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:2rem;font-size:3rem;">
@@ -327,8 +370,26 @@
       <i class="fas fa-tools" style="color:#e67e22;" title="Troubleshoot Software & Hardware"></i>
     </div>
   </section>
+  
+  <section id="certificates">
+    <h2>Sertifikat & Pelatihan</h2>
+    <div class="certificates-grid">
 
-  <!-- Projects -->
+      <div class="cert-card" onclick="openLightboxCert('sertifikat_webdev.jpg', 'Sertifikat Full Stack Web Developer')">
+        <img src="placeholder_cert_1.jpg" alt="Sertifikat Web Dev"> <h4>Full Stack Web Developer Bootcamp</h4>
+      </div>
+
+      <div class="cert-card" onclick="openLightboxCert('sertifikat_jaringan.jpg', 'Sertifikat Jaringan Dasar')">
+        <img src="placeholder_cert_2.jpg" alt="Sertifikat Jaringan"> <h4>Pelatihan Jaringan Komputer Dasar</h4>
+      </div>
+      
+      <div class="cert-card" onclick="openLightboxCert('sertifikat_data.jpg', 'Sertifikat Google Data Analytics')">
+        <img src="placeholder_cert_3.jpg" alt="Sertifikat Data"> <h4>Google Data Analytics Professional</h4>
+      </div>
+      
+      </div>
+  </section>
+
   <section id="projects">
     <h2>Proyek</h2>
     <div class="projects">
@@ -454,7 +515,6 @@
 
   </section>
 
-  <!-- Experience -->
   <section id="experience">
     <h2>Pengalaman Kerja</h2>
     <div style="max-width:800px;margin:auto;">
@@ -486,7 +546,6 @@
     </div>
   </section>
 
-  <!-- Education -->
   <section id="education">
     <h2>Pendidikan</h2>
     <div style="max-width:800px;margin:auto;">
@@ -505,7 +564,6 @@
     </div>
   </section>
 
-  <!-- Contact -->
   <section id="contact">
     <h2>Kontak</h2>
     <div class="socials">
@@ -521,12 +579,10 @@
     </div>
   </section>
 
-  <!-- Footer -->
   <footer>
     © 2025 Atalariksatrd - Portofolio
   </footer>
 
-  <!-- Lightbox Popup -->
   <div id="lightbox" class="lightbox">
     <span class="close" onclick="closeLightbox()">&times;</span>
     <img id="lightbox-img" src="">
@@ -535,8 +591,6 @@
       <button id="nextBtn">&#10095;</button>
     </div>
   </div>
-
-  <!-- Scripts -->
 
   <script>
     const saveBtn = document.getElementById("savePdfBtn");
@@ -615,10 +669,32 @@
         });
       });
     });
+    
+    // Fungsi baru untuk membuka sertifikat
+    function openLightboxCert(src, title) {
+        currentImages = [src]; 
+        currentIndex = 0;
+        lightbox.style.display = "flex";
+        lightboxImg.src = src;
+        
+        // Sembunyikan kontrol navigasi karena hanya ada 1 gambar sertifikat
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+    }
 
+    // Perbarui fungsi openLightbox lama agar bisa menampilkan/menyembunyikan tombol
     function openLightbox() {
       lightbox.style.display = "flex";
       lightboxImg.src = currentImages[currentIndex];
+      
+      // Tampilkan/sembunyikan kontrol navigasi berdasarkan jumlah gambar
+      if(currentImages.length > 1) {
+        prevBtn.style.display = 'block';
+        nextBtn.style.display = 'block';
+      } else {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+      }
     }
 
     function closeLightbox() {
