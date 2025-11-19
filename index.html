@@ -12,11 +12,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     :root {
-      --accent1: #ff6b6b;
-      --accent2: #4facfe;
-      --accent3: #43e97b;
+      --accent1: #ff6b6b; /* Merah Muda */
+      --accent2: #4facfe; /* Biru */
+      --accent3: #43e97b; /* Hijau */
       --accent4: #fbc531;
-      --accent5: #a55eea;
+      --accent5: #a55eea; /* Ungu */
       --accent6: #ff9f43;
       --accent7: #1e3799;
       --accent8: #00d8d6;
@@ -160,7 +160,7 @@
         margin-top: auto; /* Mendorong deskripsi ke bagian bawah card */
     }
 
-    /* Certificates BARU */
+    /* Certificates BARU & MEWAH */
     .certificates-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -168,24 +168,37 @@
       text-align: center;
     }
     .cert-card {
-      border-radius: 10px;
+      border-radius: 15px; /* Lebih bulat */
       padding: 1rem;
-      background: rgba(0, 0, 0, 0.1); 
+      color: #fff; /* Teks putih untuk kontras dengan background warna */
       transition: transform 0.3s, box-shadow 0.3s;
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 350px; /* Memberikan tinggi minimal */
     }
-    body.light .cert-card {
-      background: #e0e0e0;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    
+    /* Variasi Warna Card Sertifikat */
+    .cert-card:nth-child(3n+1) { /* Card 1, 4, 7, ... */
+      background: linear-gradient(145deg, var(--accent1), #e04e4e);
+      box-shadow: 0 6px 15px rgba(255, 107, 107, 0.4);
     }
-    body.dark .cert-card {
-      background: #333d47;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    .cert-card:nth-child(3n+2) { /* Card 2, 5, 8, ... */
+      background: linear-gradient(145deg, var(--accent3), #30c960);
+      box-shadow: 0 6px 15px rgba(67, 233, 123, 0.4);
     }
+    .cert-card:nth-child(3n+3) { /* Card 3, 6, 9, ... */
+      background: linear-gradient(145deg, var(--accent5), #8e44ad);
+      box-shadow: 0 6px 15px rgba(165, 94, 234, 0.4);
+    }
+
     .cert-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+      transform: translateY(-8px); /* Efek melayang lebih tinggi */
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+      filter: brightness(1.1); /* Sedikit lebih terang saat di-hover */
     }
+    
     .cert-card img {
       width: 100%;
       height: auto;
@@ -193,11 +206,17 @@
       margin-bottom: 0.8rem;
       object-fit: cover;
       max-height: 200px; 
+      border: 2px solid rgba(255, 255, 255, 0.5); /* Border putih tipis */
+      transition: 0.3s;
+    }
+    .cert-card img:hover {
+        transform: scale(1.02);
     }
     .cert-card h4 {
       font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--accent2);
+      font-weight: 700;
+      color: #fff; /* Judul putih */
+      padding-top: 10px;
     }
 
     /* Contact */
@@ -239,7 +258,6 @@
       border-radius: 5px;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.2s ease;
       white-space: nowrap;
     }
 
@@ -375,15 +393,21 @@
     <h2>Sertifikat & Pelatihan</h2>
     <div class="certificates-grid">
 
-      <div class="cert-card" onclick="openLightboxCert('sertifikat_webdev.jpg', 'Sertifikat Full Stack Web Developer')">
-        <img src="placeholder_cert_1.jpg" alt="Sertifikat Web Dev"> <h4>Full Stack Web Developer Bootcamp</h4>
+      <div class="cert-card" 
+           data-images="Gbr_Sertifikat/LSP.png,Gbr_Sertifikat/LSP2.png" 
+           onclick="openLightboxMultipleCert(this)">
+        <img src="placeholder_cert_1.jpg" alt="Sertifikat Web Dev"> <h4>LSP Network Administrator Muda</h4>
       </div>
 
-      <div class="cert-card" onclick="openLightboxCert('sertifikat_jaringan.jpg', 'Sertifikat Jaringan Dasar')">
+      <div class="cert-card" 
+           data-images="sertifikat_jaringan.jpg" 
+           onclick="openLightboxMultipleCert(this)">
         <img src="placeholder_cert_2.jpg" alt="Sertifikat Jaringan"> <h4>Pelatihan Jaringan Komputer Dasar</h4>
       </div>
       
-      <div class="cert-card" onclick="openLightboxCert('sertifikat_data.jpg', 'Sertifikat Google Data Analytics')">
+      <div class="cert-card" 
+           data-images="sertifikat_data.jpg" 
+           onclick="openLightboxMultipleCert(this)">
         <img src="placeholder_cert_3.jpg" alt="Sertifikat Data"> <h4>Google Data Analytics Professional</h4>
       </div>
       
@@ -510,8 +534,6 @@
       </div>
       
     </div>
-
-    
 
   </section>
 
@@ -658,6 +680,7 @@
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
 
+    // Fungsi Proyek (Mengambil dari slide)
     document.querySelectorAll(".card").forEach(card => {
       const images = Array.from(card.querySelectorAll(".swiper-slide img"));
       images.forEach((img, index) => {
@@ -670,19 +693,16 @@
       });
     });
     
-    // Fungsi baru untuk membuka sertifikat
-    function openLightboxCert(src, title) {
-        currentImages = [src]; 
+    // Fungsi BARU untuk Sertifikat (Mengambil dari data-images)
+    function openLightboxMultipleCert(element) {
+        // Ambil string path gambar dari atribut data-images, pisahkan dengan koma, dan hapus spasi
+        const imageString = element.getAttribute('data-images');
+        currentImages = imageString.split(',').map(path => path.trim()); 
         currentIndex = 0;
-        lightbox.style.display = "flex";
-        lightboxImg.src = src;
-        
-        // Sembunyikan kontrol navigasi karena hanya ada 1 gambar sertifikat
-        prevBtn.style.display = 'none';
-        nextBtn.style.display = 'none';
+        openLightbox(); // Panggil fungsi openLightbox utama
     }
-
-    // Perbarui fungsi openLightbox lama agar bisa menampilkan/menyembunyikan tombol
+    
+    // Fungsi openLightbox utama
     function openLightbox() {
       lightbox.style.display = "flex";
       lightboxImg.src = currentImages[currentIndex];
