@@ -115,7 +115,7 @@
       content:"";display:block;width:60px;height:4px;
       background:var(--accent2);margin:0.5rem auto;border-radius:2px;
     }
-    /* Projects */
+    /* Projects & Certificates (Menggunakan struktur yang sama) */
     .projects {
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
@@ -129,6 +129,7 @@
       flex-direction: column;
     }
     .card:hover {transform:translateY(-8px);box-shadow:0 10px 20px rgba(0,0,0,0.2);}
+    /* Warna Proyek */
     .c1 {background:var(--accent1);}
     .c2 {background:var(--accent2);}
     .c3 {background:var(--accent3);}
@@ -154,69 +155,11 @@
       width:100%;
       height:100%;
       object-fit:contain;
+      cursor: pointer; /* Penting agar slide bisa diklik untuk lightbox */
     }
     
     .card p {
         margin-top: auto; /* Mendorong deskripsi ke bagian bawah card */
-    }
-
-    /* Certificates BARU & MEWAH */
-    .certificates-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      text-align: center;
-    }
-    .cert-card {
-      border-radius: 15px; /* Lebih bulat */
-      padding: 1rem;
-      color: #fff; /* Teks putih untuk kontras dengan background warna */
-      transition: transform 0.3s, box-shadow 0.3s;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 350px; /* Memberikan tinggi minimal */
-    }
-    
-    /* Variasi Warna Card Sertifikat */
-    .cert-card:nth-child(3n+1) { /* Card 1, 4, 7, ... */
-      background: linear-gradient(145deg, var(--accent1), #e04e4e);
-      box-shadow: 0 6px 15px rgba(255, 107, 107, 0.4);
-    }
-    .cert-card:nth-child(3n+2) { /* Card 2, 5, 8, ... */
-      background: linear-gradient(145deg, var(--accent3), #30c960);
-      box-shadow: 0 6px 15px rgba(67, 233, 123, 0.4);
-    }
-    .cert-card:nth-child(3n+3) { /* Card 3, 6, 9, ... */
-      background: linear-gradient(145deg, var(--accent5), #8e44ad);
-      box-shadow: 0 6px 15px rgba(165, 94, 234, 0.4);
-    }
-
-    .cert-card:hover {
-      transform: translateY(-8px); /* Efek melayang lebih tinggi */
-      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
-      filter: brightness(1.1); /* Sedikit lebih terang saat di-hover */
-    }
-    
-    .cert-card img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin-bottom: 0.8rem;
-      object-fit: cover;
-      max-height: 200px; 
-      border: 2px solid rgba(255, 255, 255, 0.5); /* Border putih tipis */
-      transition: 0.3s;
-    }
-    .cert-card img:hover {
-        transform: scale(1.02);
-    }
-    .cert-card h4 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #fff; /* Judul putih */
-      padding-top: 10px;
     }
 
     /* Contact */
@@ -391,27 +334,43 @@
   
   <section id="certificates">
     <h2>Sertifikat & Pelatihan</h2>
-    <div class="certificates-grid">
+    <div class="projects">
 
-      <div class="cert-card" 
-           data-images="Gbr_Sertifikat/LSP.png,Gbr_Sertifikat/LSP2.png" 
-           onclick="openLightboxMultipleCert(this)">
-        <img src="Gbr_Sertifikat/LSP.png" alt="Sertifikat Web Dev"> <h4>LSP Network Administrator Muda</h4>
+      <div class="card c5"> 
+        <h3>LSP Network Administrator Muda (2 Halaman)</h3>
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="Gbr_Sertifikat/LSP.png"></div>
+            <div class="swiper-slide"><img src="Gbr_Sertifikat/LSP2.png"></div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+        <p>Sertifikasi kompetensi sebagai Network Administrator Muda dari LSP.</p>
       </div>
 
-      <div class="cert-card" 
-           data-images="sertifikat_jaringan.jpg" 
-           onclick="openLightboxMultipleCert(this)">
-        <img src="placeholder_cert_2.jpg" alt="Sertifikat Jaringan"> <h4>Pelatihan Jaringan Komputer Dasar</h4>
+      <div class="card c1">
+        <h3>Pelatihan Jaringan Komputer Dasar</h3>
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="sertifikat_jaringan.jpg"></div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+        <p>Pelatihan dasar-dasar konfigurasi dan manajemen jaringan.</p>
       </div>
       
-      <div class="cert-card" 
-           data-images="sertifikat_data.jpg" 
-           onclick="openLightboxMultipleCert(this)">
-        <img src="placeholder_cert_3.jpg" alt="Sertifikat Data"> <h4>Google Data Analytics Professional</h4>
+      <div class="card c3">
+        <h3>Google Data Analytics Professional</h3>
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="sertifikat_data.jpg"></div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+        <p>Sertifikasi profesional dalam analisis data dari Google.</p>
       </div>
       
-      </div>
+    </div>
   </section>
 
   <section id="projects">
@@ -680,7 +639,7 @@
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
 
-    // Fungsi Proyek (Mengambil dari slide)
+    // FUNGSI INI SEKARANG MENANGANI LIGHTBOX UNTUK PROYEK DAN SERTIFIKAT
     document.querySelectorAll(".card").forEach(card => {
       const images = Array.from(card.querySelectorAll(".swiper-slide img"));
       images.forEach((img, index) => {
@@ -692,15 +651,6 @@
         });
       });
     });
-    
-    // Fungsi BARU untuk Sertifikat (Mengambil dari data-images)
-    function openLightboxMultipleCert(element) {
-        // Ambil string path gambar dari atribut data-images, pisahkan dengan koma, dan hapus spasi
-        const imageString = element.getAttribute('data-images');
-        currentImages = imageString.split(',').map(path => path.trim()); 
-        currentIndex = 0;
-        openLightbox(); // Panggil fungsi openLightbox utama
-    }
     
     // Fungsi openLightbox utama
     function openLightbox() {
