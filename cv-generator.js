@@ -15,12 +15,13 @@ document.querySelectorAll("#skills i").forEach(skill => {
 skills.push(skill.getAttribute("title"));
 });
 
-// EXPERIENCE (FIXED)
+// EXPERIENCE
 const experiences = [];
 document.querySelectorAll("#experience > div").forEach(item => {
+
 const title = item.querySelector("h3")?.innerText || "";
 const date = item.querySelector("em")?.innerText || "";
-// ambil semua bullet point
+
 const desc = [];
 item.querySelectorAll("li").forEach(li => {
 desc.push(li.innerText);
@@ -78,10 +79,13 @@ linkedin: personal.dataset.linkedin
 };
 }
 
-// BUTTON RESUME (FIXED - TANPA SESSION STORAGE)
+
+// BUTTON RESUME
 document.getElementById("resumeBtn").addEventListener("click", () => {
 
-collectPortfolioData(); // cukup trigger data tersedia
+const data = collectPortfolioData();
+
+sessionStorage.setItem("portfolioData", JSON.stringify(data));
 
 window.open("cv.html", "_blank");
 
