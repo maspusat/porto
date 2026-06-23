@@ -1,213 +1,255 @@
 <!DOCTYPE html>
+
 <html lang="id">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>CV ATS</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
+
 body{
 margin:0;
-padding:0;
+padding:20px;
 background:#ddd;
-font-family:Arial;
+font-family:Arial,sans-serif;
 }
 
-/* FIX A4 STABLE */
-/* #cv{
-  width:210mm;
-  min-height:297mm;
-  background:#fff;
-  margin:0 auto;
-  padding:14mm;
-  box-sizing:border-box;
-  overflow:hidden;
-} */
+button{
 
-/* #cv{
-  width:190mm;
-  background:#fff;
-  margin:auto;
-  padding:12mm;
-  box-sizing:border-box;
-  overflow:hidden;
-} */
+position:fixed;
+
+top:20px;
+
+right:20px;
+
+padding:10px 16px;
+
+border:none;
+
+border-radius:6px;
+
+background:#2563eb;
+
+color:#fff;
+
+cursor:pointer;
+
+z-index:999;
+}
 
 #cv{
-width:760px;
+
+width:794px;
+
+min-height:1123px;
+
 background:#fff;
-margin:0 auto;
-padding:30px;
+
+margin:auto;
+
+padding:28px;
+
 box-sizing:border-box;
 }
 
-html,
-body{
-margin:0;
-padding:0;
-overflow-x:hidden;
-}
-
-.header,
-.section{
-break-inside:avoid;
-page-break-inside:avoid;
-}
-
-/* BUTTON */
-button{
-position:fixed;
-top:15px;
-right:15px;
-padding:10px 14px;
-background:#2563eb;
-color:#fff;
-border:none;
-cursor:pointer;
-border-radius:6px;
-}
-
-/* HEADER (FIX SHIFT ISSUE) */
 .header{
+
 display:flex;
-gap:15px;
-align-items:flex-start;
-margin-bottom:8px;
+
+gap:18px;
+
+margin-bottom:12px;
 }
 
-/* FOTO 4x6 */
 .header img{
+
 width:100px;
+
 height:150px;
+
 object-fit:cover;
-border:1.5px solid #000;
-border-radius:4px;
+
+border:1px solid #000;
 }
 
-/* NAME */
+.header-right{
+
+flex:1;
+}
+
 h1{
+
 margin:0;
+
 font-size:28px;
-line-height:1.1;
 }
 
 h3{
-margin:2px 0 6px 0;
-font-size:14px;
-color:#444;
+
+margin:3px 0 8px 0;
+
+font-size:15px;
+
 font-weight:normal;
-}
 
-/* CONTACT RAPAT */
-.contact{
-font-size:12.5px;
-line-height:1.4;
-}
-
-.contact p{
-margin:2px 0;
-}
-
-/* SECTION */
-.section{
-margin-top:8px;
-}
-
-.section h2{
-font-size:14px;
-margin:0 0 5px 0;
-border-bottom:1.5px solid #000;
-padding-bottom:2px;
-}
-
-/* ITEM */
-.item{
-margin-bottom:6px;
-font-size:13px;
-}
-
-small{
-font-size:11.5px;
 color:#555;
 }
 
-/* ABOUT */
-.about{
+.contact{
+
 font-size:13px;
-text-align:justify;
-line-height:1.4;
-margin:0;
+
+line-height:1.5;
 }
 
-/* LIST */
+.contact p{
+
+margin:2px 0;
+}
+
+.section{
+
+margin-top:10px;
+}
+
+.section h2{
+
+font-size:15px;
+
+margin:0 0 6px;
+
+padding-bottom:3px;
+
+border-bottom:2px solid #000;
+}
+
+.about{
+
+font-size:13px;
+
+line-height:1.4;
+
+text-align:justify;
+}
+
 ul{
+
 margin:0;
-padding-left:16px;
+
+padding-left:18px;
+
 font-size:13px;
 }
+
+.item{
+
+font-size:13px;
+
+margin-bottom:8px;
+}
+
+small{
+
+font-size:12px;
+
+color:#666;
+}
+
 </style>
+
 </head>
 
 <body>
 
-<button onclick="downloadPDF()">Download PDF</button>
+<button onclick="downloadPDF()">
+
+Download PDF
+
+</button>
 
 <div id="cv">
 
-<!-- HEADER -->
 <div class="header">
-  <img id="photo">
 
-  <div>
-    <h1 id="name"></h1>
-    <h3 id="title"></h3>
+<img id="photo">
 
-    <div class="contact">
-      <p id="phone"></p>
-      <p id="email"></p>
-      <p id="location"></p>
-      <p id="github"></p>
-      <p id="portfolio"></p>
-    </div>
-  </div>
+<div class="header-right">
+
+<h1 id="name"></h1>
+
+<h3 id="title"></h3>
+
+<div class="contact">
+
+<p id="phone"></p>
+
+<p id="email"></p>
+
+<p id="location"></p>
+
+<p id="github"></p>
+
+<p id="portfolio"></p>
+
 </div>
 
-<!-- PROFILE -->
+</div>
+
+</div>
+
 <div class="section">
+
 <h2>Profil</h2>
+
 <p id="about" class="about"></p>
+
 </div>
 
-<!-- SKILL -->
 <div class="section">
+
 <h2>Keahlian</h2>
+
 <ul id="skills"></ul>
+
 </div>
 
-<!-- EXPERIENCE -->
 <div class="section">
+
 <h2>Pengalaman</h2>
+
 <div id="experience"></div>
+
 </div>
 
-<!-- EDUCATION -->
 <div class="section">
+
 <h2>Pendidikan</h2>
+
 <div id="education"></div>
+
 </div>
 
-<!-- CERT -->
 <div class="section">
+
 <h2>Sertifikat</h2>
+
 <div id="certificates"></div>
+
 </div>
 
-<!-- PROJECT -->
 <div class="section">
+
 <h2>Proyek</h2>
+
 <div id="projects"></div>
+
 </div>
 
 </div>
@@ -216,124 +258,191 @@ font-size:13px;
 
 const source = window.opener.document;
 
-const qs = (el) => source.querySelector(el);
-const qsa = (el) => source.querySelectorAll(el);
+const qs=(el)=>source.querySelector(el);
+
+const qsa=(el)=>source.querySelectorAll(el);
+
 
 /* HEADER */
-document.getElementById("photo").src = qs("#home img")?.src || "";
-document.getElementById("name").innerText = qs("#home h1")?.innerText || "";
-document.getElementById("title").innerText = qs("#home p")?.innerText || "";
 
-/* PROFILE */
-document.getElementById("about").innerText = qs("#about p")?.innerText || "";
+photo.src=qs("#home img")?.src || "";
 
-/* CONTACT */
-const box = qs("#cv-data");
+name.innerText=qs("#home h1")?.innerText || "";
 
-document.getElementById("phone").innerText = "📱 " + (box?.dataset.phone || "-");
-document.getElementById("email").innerText = "📧 " + (box?.dataset.email || "-");
-document.getElementById("location").innerText = "📍 " + (box?.dataset.location || "-");
-document.getElementById("github").innerText = "💻 " + (box?.dataset.github || "-");
-document.getElementById("portfolio").innerText = "🌐 " + (box?.dataset.portfolio || "-");
+title.innerText=qs("#home p")?.innerText || "";
 
-/* SKILLS */
-document.getElementById("skills").innerHTML =
+
+/* PROFIL */
+
+about.innerText=qs("#about p")?.innerText || "";
+
+
+/* KONTAK */
+
+const box=qs("#cv-data");
+
+phone.innerText="📱 "+(box?.dataset.phone || "-");
+
+email.innerText="📧 "+(box?.dataset.email || "-");
+
+location.innerText="📍 "+(box?.dataset.location || "-");
+
+github.innerText="💻 "+(box?.dataset.github || "-");
+
+portfolio.innerText="🌐 "+(box?.dataset.portfolio || "-");
+
+
+/* SKILL */
+
+skills.innerHTML=
+
 Array.from(qsa("#skills i"))
-.map(i => `<li>${i.getAttribute("title")}</li>`)
-.join(" ");
 
-/* EXPERIENCE (ONLY 2 POINT) */
-document.getElementById("experience").innerHTML =
+.map(i=>`<li>${i.title}</li>`)
+
+.join("");
+
+
+
+/* EXPERIENCE */
+
+experience.innerHTML=
+
 Array.from(qsa("#experience > div > div"))
-.map(exp => {
-const title = exp.querySelector("h3")?.innerText || "";
-const date = exp.querySelector("em")?.innerText || "";
 
-/* ambil 2 poin penting */
-const desc = Array.from(exp.querySelectorAll("li"))
-.slice(0, 2)
-.map(li => "• " + li.innerText)
+.map(exp=>{
+
+const title=
+
+exp.querySelector("h3")?.innerText || "";
+
+const date=
+
+exp.querySelector("em")?.innerText || "";
+
+
+const desc=
+
+Array.from(exp.querySelectorAll("li"))
+
+.slice(0,2)
+
+.map(li=>"• "+li.innerText)
+
 .join("<br>");
 
-return `
-<div class="item">
-<b>${title}</b><br>
-<small>${date}</small><br>
-${desc}
-</div>
-`;
-}).join("");
 
-/* EDUCATION (ONLY D3 SISTEM INFORMASI) */
-document.getElementById("education").innerHTML =
-Array.from(qsa("#education > div > div"))
-.filter(e => (e.querySelector("h3")?.innerText || "").includes("D3 Sistem Informasi"))
-.map(e => `
+return`
+
 <div class="item">
-<b>${e.querySelector("h3")?.innerText || ""}</b><br>
-<small>${e.querySelector("em")?.innerText || ""}</small>
+
+<b>${title}</b><br>
+
+<small>${date}</small><br>
+
+${desc}
+
 </div>
-`).join("");
+
+`;
+
+})
+
+.join("");
+
+
+
+/* EDUCATION */
+
+education.innerHTML=
+
+Array.from(qsa("#education > div > div"))
+
+.filter(e=>
+
+(e.querySelector("h3")?.innerText || "")
+
+.includes("D3 Sistem Informasi")
+
+)
+
+.map(e=>`
+
+<div class="item">
+
+<b>${e.querySelector("h3")?.innerText}</b><br>
+
+<small>${e.querySelector("em")?.innerText}</small>
+
+</div>
+
+`)
+
+.join("");
+
+
 
 /* CERT */
-document.getElementById("certificates").innerHTML =
+
+certificates.innerHTML=
+
 Array.from(qsa("#certificates .card h3"))
-.map(c => `<div class="item">• ${c.innerText}</div>`)
+
+.map(c=>
+
+`<div class="item">• ${c.innerText}</div>`
+
+)
+
 .join("");
+
+
 
 /* PROJECT */
-document.getElementById("projects").innerHTML =
+
+projects.innerHTML=
+
 Array.from(qsa("#projects .card h3"))
-.map(p => `<div class="item">• ${p.innerText}</div>`)
+
+.map(p=>
+
+`<div class="item">• ${p.innerText}</div>`
+
+)
+
 .join("");
 
-/* PDF FIX (ANTI HEADER TURUN) */
-// function downloadPDF(){
-// html2pdf()
-// .set({
-// margin: 0,
-// filename: "CV_Atalarik.pdf",
-// image: { type: "jpeg", quality: 1 },
-// html2canvas: {
-// scale: 2,
-// scrollY: 0,
-// useCORS: true
-// },
-// jsPDF: {
-// unit: "mm",
-// format: "a4",
-// orientation: "portrait"
-// },
-// pagebreak: { mode: ["css", "legacy"] }
-// })
-// .from(document.getElementById("cv"))
-// .save();
-// }
+
+
+/* PDF */
 
 function downloadPDF(){
 
-const element = document.getElementById("cv");
+const element=
 
-const opt = {
+document.getElementById("cv");
+
+html2pdf()
+
+.set({
 
 margin:0,
 
 filename:"CV_Atalarik.pdf",
 
 image:{
+
 type:"jpeg",
+
 quality:1
+
 },
 
 html2canvas:{
 
 scale:2,
 
-useCORS:true,
-
-scrollX:0,
-
-scrollY:0
+useCORS:true
 
 },
 
@@ -341,45 +450,22 @@ jsPDF:{
 
 unit:"pt",
 
-format:"letter",
+format:"a4",
 
 orientation:"portrait"
 
-},
-
-pagebreak:{
-
-mode:["avoid-all"]
-
 }
 
-};
-
-html2pdf()
-
-.set(opt)
+})
 
 .from(element)
 
-.toPdf()
-
-.get("pdf")
-
-.then(function(pdf){
-
-while(pdf.internal.getNumberOfPages()>1){
-
-pdf.deletePage(2);
-
-}
-
-pdf.save("CV_Atalarik.pdf");
-
-});
+.save();
 
 }
 
 </script>
 
 </body>
+
 </html>
