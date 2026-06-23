@@ -16,12 +16,21 @@ font-family:Arial;
 }
 
 /* FIX A4 STABLE */
-#cv{
+/* #cv{
   width:210mm;
   min-height:297mm;
   background:#fff;
   margin:0 auto;
   padding:14mm;
+  box-sizing:border-box;
+  overflow:hidden;
+} */
+
+#cv{
+  width:190mm;
+  background:#fff;
+  margin:auto;
+  padding:12mm;
   box-sizing:border-box;
   overflow:hidden;
 }
@@ -258,26 +267,79 @@ Array.from(qsa("#projects .card h3"))
 .join("");
 
 /* PDF FIX (ANTI HEADER TURUN) */
+// function downloadPDF(){
+// html2pdf()
+// .set({
+// margin: 0,
+// filename: "CV_Atalarik.pdf",
+// image: { type: "jpeg", quality: 1 },
+// html2canvas: {
+// scale: 2,
+// scrollY: 0,
+// useCORS: true
+// },
+// jsPDF: {
+// unit: "mm",
+// format: "a4",
+// orientation: "portrait"
+// },
+// pagebreak: { mode: ["css", "legacy"] }
+// })
+// .from(document.getElementById("cv"))
+// .save();
+// }
+
 function downloadPDF(){
-html2pdf()
-.set({
-margin: 0,
-filename: "CV_Atalarik.pdf",
-image: { type: "jpeg", quality: 1 },
-html2canvas: {
-scale: 2,
-scrollY: 0,
-useCORS: true
-},
-jsPDF: {
-unit: "mm",
-format: "a4",
-orientation: "portrait"
-},
-pagebreak: { mode: ["css", "legacy"] }
-})
-.from(document.getElementById("cv"))
-.save();
+
+  const element = document.getElementById("cv");
+
+  html2pdf()
+    .set({
+      margin:0,
+
+      filename:"CV_Atalarik.pdf",
+
+      image:{
+        type:"jpeg",
+        quality:1
+      },
+
+      html2canvas:{
+        scale:2,
+        scrollY:0,
+        scrollX:0,
+        useCORS:true,
+        windowWidth:element.scrollWidth,
+        windowHeight:element.scrollHeight
+      },
+
+      jsPDF:{
+        unit:"pt",
+        format:"letter",
+        orientation:"portrait"
+      },
+
+      pagebreak:{
+        mode:["avoid-all"]
+      }
+    })
+
+    .from(element)
+
+    .toPdf()
+
+    .get("pdf")
+
+    .then(function(pdf){
+
+      while(pdf.internal.getNumberOfPages() > 1){
+        pdf.deletePage(2);
+      }
+
+      pdf.save("CV_Atalarik.pdf");
+
+    });
+
 }
 
 </script>
