@@ -42,10 +42,9 @@ border-radius:6px;
 display:flex;
 gap:18px;
 align-items:flex-start;
-margin-bottom:12px;
+margin-bottom:10px;
 }
 
-/* FOTO 3x4 (KOTAK PORTRAIT) */
 .header img{
 width:100px;
 height:150px;
@@ -57,15 +56,28 @@ border-radius:4px; /* sedikit rounded ATS aman */
 /* NAMA LEBIH BESAR SEDIKIT */
 h1{
 margin:0;
-font-size:28px;
+font-size:30px;
 line-height:1.1;
 }
 
 h3{
-margin:2px 0 6px 0;
+margin:3px 0 8px 0;
 font-size:15px;
 color:#444;
 font-weight:normal;
+}
+
+/* KONTAK LEBIH RAPI + ICON */
+.contact{
+font-size:13px;
+line-height:1.5;
+}
+
+.contact p{
+margin:2px 0;
+display:flex;
+align-items:center;
+gap:6px;
 }
 
 /* CONTACT DIPADATKAN */
@@ -117,11 +129,13 @@ font-size:13px;
 <h1 id="name"></h1>
 <h3 id="title"></h3>
 
-<p id="phone"></p>
-<p id="email"></p>
-<p id="location"></p>
-<p id="github"></p>
-<p id="portfolio"></p>
+<div class="contact">
+  <p id="phone"></p>
+  <p id="email"></p>
+  <p id="location"></p>
+  <p id="github"></p>
+  <p id="portfolio"></p>
+</div>
 
 </div>
 </div>
@@ -180,11 +194,20 @@ document.getElementById("about").innerText = qs("#about p")?.innerText || "";
 
 // CONTACT
 const box = qs("#cv-data");
-document.getElementById("phone").innerText = box?.dataset.phone || "";
-document.getElementById("email").innerText = box?.dataset.email || "";
-document.getElementById("location").innerText = box?.dataset.location || "";
-document.getElementById("github").innerText = box?.dataset.github || "";
-document.getElementById("portfolio").innerText = box?.dataset.portfolio || "";
+document.getElementById("phone").innerHTML =
+"📱 " + (box?.dataset.phone || "-");
+
+document.getElementById("email").innerHTML =
+"📧 " + (box?.dataset.email || "-");
+
+document.getElementById("location").innerHTML =
+"📍 " + (box?.dataset.location || "-");
+
+document.getElementById("github").innerHTML =
+"💻 " + (box?.dataset.github || "-");
+
+document.getElementById("portfolio").innerHTML =
+"🌐 " + (box?.dataset.portfolio || "-");
 
 // SKILLS
 document.getElementById("skills").innerHTML =
