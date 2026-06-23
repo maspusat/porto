@@ -229,6 +229,7 @@ Array.from(qsa("#experience > div > div"))
 const title = exp.querySelector("h3")?.innerText || "";
 const date = exp.querySelector("em")?.innerText || "";
 const desc = Array.from(exp.querySelectorAll("li"))
+.slice(0, 2) // 🔥 ambil hanya 2 poin penting
 .map(li => "• " + li.innerText)
 .join("<br>");
 
