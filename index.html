@@ -303,10 +303,10 @@
   <header id="home">
     <img src="Foto.png" alt="Foto Profil">
     <h1>Atalarik Satria Dinata</h1>
-    <p>Web & Mobile Developer | Technical Support Engineer</p>
+    <p>IT Support Engineer • Network Administrator</p>
     <div style="margin-top:1rem;">
       <a href="#contact" class="toggle-btn">Hire Me</a>
-      <a href="CV/CV_AtalarikSatriaDinata.pdf" download target="_blank" class="toggle-btn">Resume</a>
+      <button id="resumeBtn" class="toggle-btn"> Resume </button>
     </div>
   </header>
 
@@ -713,5 +713,48 @@
     nextBtn.addEventListener("click", showNext);
     lightbox.addEventListener("click", e => { if(e.target === lightbox) closeLightbox(); });
   </script>
+
+  <!-- Generate CV ATS PDF -->
+  <script>
+    document
+    .getElementById("resumeBtn")
+    .addEventListener("click",()=>{
+
+    const data = {
+
+    name:
+    document.querySelector("#home h1")
+    .innerText,
+
+    title:
+    document.querySelector("#home p")
+    .innerText
+
+    }
+
+    sessionStorage.setItem(
+    "portfolioData",
+    JSON.stringify(data)
+    );
+
+    window.open(
+    "cv.html",
+    "_blank"
+    );
+
+    });
+  </script>
+
+  <script src="cv-generator.js"></script>
+
+  <div id="cv-data" style="display:none;"
+  data-phone="+62895340079439"
+  data-location="Surabaya, Jawa Timur"
+  data-email="atalarik.satria77@gmail.com"
+  data-github="https://github.com/maspusat"
+  data-portfolio="https://maspusat.github.io/porto"
+  data-linkedin="">
+  </div>
+
 </body>
 </html>
