@@ -15,21 +15,26 @@ background:#ddd;
 font-family:Arial;
 }
 
-/* ===== A4 FIX (STABLE 1 PAGE) ===== */
+/* FIX A4 STABLE */
 #cv{
   width:210mm;
-  height:297mm;
+  min-height:297mm;
   background:#fff;
   margin:0 auto;
-  padding:12mm;
+  padding:14mm;
   box-sizing:border-box;
   overflow:hidden;
 }
 
-/* PRINT SAFE A4 */
-@page{
-  size: A4;
+html, body{
   margin:0;
+  padding:0;
+  height:auto;
+}
+
+/* cegah html2pdf bikin page tambahan */
+.section, .header{
+  page-break-inside: avoid;
 }
 
 /* BUTTON */
@@ -45,12 +50,12 @@ cursor:pointer;
 border-radius:6px;
 }
 
-/* HEADER */
+/* HEADER (FIX SHIFT ISSUE) */
 .header{
 display:flex;
-gap:14px;
+gap:15px;
 align-items:flex-start;
-margin-bottom:6px;
+margin-bottom:8px;
 }
 
 /* FOTO 4x6 */
@@ -65,63 +70,63 @@ border-radius:4px;
 /* NAME */
 h1{
 margin:0;
-font-size:26px;
+font-size:28px;
 line-height:1.1;
 }
 
 h3{
-margin:2px 0 4px 0;
-font-size:13px;
+margin:2px 0 6px 0;
+font-size:14px;
 color:#444;
 font-weight:normal;
 }
 
-/* CONTACT */
+/* CONTACT RAPAT */
 .contact{
-font-size:12px;
-line-height:1.3;
+font-size:12.5px;
+line-height:1.4;
 }
 
 .contact p{
-margin:1px 0;
+margin:2px 0;
 }
 
 /* SECTION */
 .section{
-margin-top:6px;
+margin-top:8px;
 }
 
 .section h2{
-font-size:13px;
-margin:0 0 4px 0;
-border-bottom:1px solid #000;
+font-size:14px;
+margin:0 0 5px 0;
+border-bottom:1.5px solid #000;
 padding-bottom:2px;
 }
 
 /* ITEM */
 .item{
-margin-bottom:4px;
-font-size:12.5px;
+margin-bottom:6px;
+font-size:13px;
 }
 
 small{
-font-size:11px;
+font-size:11.5px;
 color:#555;
 }
 
 /* ABOUT */
 .about{
-font-size:12.5px;
+font-size:13px;
 text-align:justify;
-line-height:1.3;
+line-height:1.4;
 margin:0;
 }
 
 /* LIST */
 ul{
 margin:0;
-padding-left:14px;
-font-size:12.5px;
+padding-left:16px;
+font-size:13px;
 }
 </style>
 </head>
@@ -216,17 +221,18 @@ document.getElementById("portfolio").innerText = "🌐 " + (box?.dataset.portfol
 document.getElementById("skills").innerHTML =
 Array.from(qsa("#skills i"))
 .map(i => `<li>${i.getAttribute("title")}</li>`)
-.join("");
+.join(" ");
 
-/* EXPERIENCE (2 POINT) */
+/* EXPERIENCE (ONLY 2 POINT) */
 document.getElementById("experience").innerHTML =
 Array.from(qsa("#experience > div > div"))
 .map(exp => {
 const title = exp.querySelector("h3")?.innerText || "";
 const date = exp.querySelector("em")?.innerText || "";
 
+/* ambil 2 poin penting */
 const desc = Array.from(exp.querySelectorAll("li"))
-.slice(0,2)
+.slice(0, 2)
 .map(li => "• " + li.innerText)
 .join("<br>");
 
@@ -239,7 +245,7 @@ ${desc}
 `;
 }).join("");
 
-/* EDUCATION (ONLY D3) */
+/* EDUCATION (ONLY D3 SISTEM INFORMASI) */
 document.getElementById("education").innerHTML =
 Array.from(qsa("#education > div > div"))
 .filter(e => (e.querySelector("h3")?.innerText || "").includes("D3 Sistem Informasi"))
@@ -262,31 +268,27 @@ Array.from(qsa("#projects .card h3"))
 .map(p => `<div class="item">• ${p.innerText}</div>`)
 .join("");
 
-/* ===== PDF FIX FINAL (ANTI LETTER + ANTI PAGE 2) ===== */
+/* PDF FIX (ANTI HEADER TURUN) */
 function downloadPDF(){
-
 const element = document.getElementById("cv");
 
-html2pdf().set({
+html2pdf()
+.set({
   margin: 0,
   filename: "CV_Atalarik.pdf",
   image: { type: "jpeg", quality: 1 },
-
   html2canvas: {
     scale: 2,
-    useCORS: true,
     scrollY: 0,
-    windowWidth: 794
+    useCORS: true
   },
-
   jsPDF: {
     unit: "mm",
     format: "a4",
     orientation: "portrait"
   },
-
   pagebreak: {
-    mode: ["avoid-all"]
+    mode: ["avoid-all", "css", "legacy"]
   }
 })
 .from(element)
