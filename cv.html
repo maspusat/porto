@@ -27,8 +27,8 @@ font-family:Arial;
 }
 
 html, body{
-  margin:0;
-  padding:0;
+  /* margin:0;
+  padding:0; */
   height:auto;
 }
 
@@ -270,39 +270,29 @@ Array.from(qsa("#projects .card h3"))
 
 /* PDF FIX (ANTI HEADER TURUN) */
 function downloadPDF(){
-  const element = document.getElementById("cv");
+const element = document.getElementById("cv");
 
-  const opt = {
-    margin: 0,
-    filename: "CV_Atalarik.pdf",
-
-    image: {
-      type: "jpeg",
-      quality: 1
-    },
-
-    html2canvas: {
-      scale: 1.6,        // 🔥 penting: jangan 2 (biar tidak overflow)
-      useCORS: true,
-      scrollY: 0,
-      windowWidth: 1200  // 🔥 paksa ukuran A4 render stabil
-    },
-
-    jsPDF: {
-      unit: "mm",
-      format: "a4",      // 🔥 ini fix A4
-      orientation: "portrait"
-    },
-
-    pagebreak: {
-      mode: ["avoid-all"] // 🔥 hilangkan page 2 kosong
-    }
-  };
-
-  html2pdf()
-    .set(opt)
-    .from(element)
-    .save();
+html2pdf()
+.set({
+  margin: 0,
+  filename: "CV_Atalarik.pdf",
+  image: { type: "jpeg", quality: 1 },
+  html2canvas: {
+    scale: 2,
+    scrollY: 0,
+    useCORS: true
+  },
+  jsPDF: {
+    unit: "mm",
+    format: "a4",
+    orientation: "portrait"
+  },
+  pagebreak: {
+    mode: ["avoid-all", "css", "legacy"]
+  }
+})
+.from(element)
+.save();
 }
 
 </script>
