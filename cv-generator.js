@@ -2,49 +2,49 @@ function collectPortfolioData() {
 
 const personal = document.getElementById("cv-data");
 
-const q = (s) => document.querySelector(s);
-const qa = (s) => Array.from(document.querySelectorAll(s));
-
 // HOME
-const name = q("#home h1")?.innerText || "";
-const title = q("#home p")?.innerText || "";
+const name = document.querySelector("#home h1")?.innerText || "";
+const title = document.querySelector("#home p")?.innerText || "";
 
 // ABOUT
-const about = q("#about p")?.innerText || "";
+const about = document.querySelector("#about p")?.innerText || "";
 
 // SKILLS
-const skills = qa("#skills i")
+const skills = Array.from(document.querySelectorAll("#skills i"))
 .map(i => i.getAttribute("title") || "");
 
 // EXPERIENCE
-const experiences = qa("#experience > div").map(item => {
+const experiences = Array.from(document.querySelectorAll("#experience > div > div"))
+.map(item => {
 
 const title = item.querySelector("h3")?.innerText || "";
 const date = item.querySelector("em")?.innerText || "";
 
-const desc = qa.call(item, "li").map(li => li.innerText || "");
+const desc = Array.from(item.querySelectorAll("li"))
+.map(li => li.innerText || "");
 
 return { title, date, desc };
 });
 
 // EDUCATION
-const education = qa("#education > div").map(item => ({
+const education = Array.from(document.querySelectorAll("#education > div > div"))
+.map(item => ({
 title: item.querySelector("h3")?.innerText || "",
 date: item.querySelector("em")?.innerText || ""
 }));
 
 // CERT
-const certificates = qa("#certificates .card h3")
-.map(e => e.innerText || "");
+const certificates = Array.from(document.querySelectorAll("#certificates .card h3"))
+.map(i => i.innerText);
 
 // PROJECT
-const projects = qa("#projects .card h3")
-.map(e => e.innerText || "");
+const projects = Array.from(document.querySelectorAll("#projects .card h3"))
+.map(i => i.innerText);
 
 // PHOTO
-const photo = q("#home img")?.src || "";
+const photo = document.querySelector("#home img")?.src || "";
 
-const data = {
+return {
 name,
 title,
 about,
@@ -55,30 +55,17 @@ certificates,
 projects,
 photo,
 
-phone: personal?.dataset?.phone || "",
-location: personal?.dataset?.location || "",
-email: personal?.dataset?.email || "",
-github: personal?.dataset?.github || "",
-portfolio: personal?.dataset?.portfolio || "",
-linkedin: personal?.dataset?.linkedin || ""
+phone: personal?.dataset.phone || "",
+location: personal?.dataset.location || "",
+email: personal?.dataset.email || "",
+github: personal?.dataset.github || "",
+portfolio: personal?.dataset.portfolio || "",
+linkedin: personal?.dataset.linkedin || ""
 };
-
-console.log("FULL DATA:", data);
-return data;
 }
 
-// BUTTON
+// BUTTON RESUME
 document.getElementById("resumeBtn").addEventListener("click", () => {
-
-const data = collectPortfolioData();
-
-if(!data.name){
-alert("Data kosong");
-return;
-}
-
-sessionStorage.setItem("portfolioData", JSON.stringify(data));
-
+collectPortfolioData(); // cukup trigger
 window.open("cv.html", "_blank");
-
 });

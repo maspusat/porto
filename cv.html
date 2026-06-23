@@ -8,18 +8,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-
 body{
 margin:0;
 padding:20px;
 background:#ddd;
-font-family:Arial,sans-serif;
+font-family:Arial;
 }
 
 #cv{
 width:210mm;
 min-height:297mm;
-background:white;
+background:#fff;
 margin:auto;
 padding:25px;
 box-sizing:border-box;
@@ -30,9 +29,9 @@ position:fixed;
 top:20px;
 right:20px;
 padding:10px 15px;
-border:none;
 background:#2563eb;
-color:white;
+color:#fff;
+border:none;
 cursor:pointer;
 border-radius:6px;
 }
@@ -45,60 +44,29 @@ margin-bottom:20px;
 }
 
 .header img{
-width:110px;
-height:110px;
+width:110px;height:110px;
 border-radius:50%;
 object-fit:cover;
 border:2px solid #000;
 }
 
-h1{
-margin:0;
-font-size:26px;
-}
+h1{margin:0;font-size:26px;}
+h3{margin:5px 0;color:#444;font-weight:normal;}
 
-h3{
-margin:5px 0;
-font-weight:normal;
-color:#444;
-}
-
-.section{
-margin-top:15px;
-}
+.section{margin-top:15px;}
 
 .section h2{
 font-size:16px;
 border-bottom:2px solid #000;
 padding-bottom:3px;
-margin-bottom:8px;
 }
 
-ul{
-margin:0;
-padding-left:18px;
-}
+.item{margin-bottom:10px;}
 
-.contact p{
-margin:2px 0;
-font-size:13px;
-}
-
-.about{
-font-size:14px;
-text-align:justify;
-}
-
-.item{
-margin-bottom:8px;
-}
-
-small{
-color:#555;
-}
-
+small{color:#555;}
+.about{text-align:justify;}
+ul{padding-left:18px;}
 </style>
-
 </head>
 
 <body>
@@ -114,13 +82,11 @@ color:#555;
 <h1 id="name"></h1>
 <h3 id="title"></h3>
 
-<div class="contact">
 <p id="phone"></p>
 <p id="email"></p>
 <p id="location"></p>
 <p id="github"></p>
 <p id="portfolio"></p>
-</div>
 
 </div>
 </div>
@@ -164,72 +130,84 @@ color:#555;
 </div>
 
 <script>
-    const data = JSON.parse(sessionStorage.getItem("portfolioData"));
+const source = window.opener.document;
 
-    console.log("CV DATA:", data);
+// helper
+const qs = (el) => source.querySelector(el);
+const qsa = (el) => source.querySelectorAll(el);
 
-    if(!data){
-    alert("Data CV kosong");
-    throw new Error("No Data");
-    }
+// DATA BASIC
+document.getElementById("photo").src = qs("#home img")?.src || "";
+document.getElementById("name").innerText = qs("#home h1")?.innerText || "";
+document.getElementById("title").innerText = qs("#home p")?.innerText || "";
 
-    // HEADER
-    document.getElementById("photo").src = data.photo || "";
-    document.getElementById("name").innerText = data.name || "-";
-    document.getElementById("title").innerText = data.title || "-";
+document.getElementById("about").innerText = qs("#about p")?.innerText || "";
 
-    // CONTACT
-    document.getElementById("phone").innerText = "📱 " + (data.phone || "-");
-    document.getElementById("email").innerText = "📧 " + (data.email || "-");
-    document.getElementById("location").innerText = "📍 " + (data.location || "-");
-    document.getElementById("github").innerText = "💻 " + (data.github || "-");
-    document.getElementById("portfolio").innerText = "🌐 " + (data.portfolio || "-");
+// CONTACT
+const box = qs("#cv-data");
+document.getElementById("phone").innerText = box?.dataset.phone || "";
+document.getElementById("email").innerText = box?.dataset.email || "";
+document.getElementById("location").innerText = box?.dataset.location || "";
+document.getElementById("github").innerText = box?.dataset.github || "";
+document.getElementById("portfolio").innerText = box?.dataset.portfolio || "";
 
-    // ABOUT
-    document.getElementById("about").innerText = data.about || "-";
+// SKILLS
+document.getElementById("skills").innerHTML =
+Array.from(qsa("#skills i"))
+.map(i => `<li>${i.getAttribute("title")}</li>`)
+.join("");
 
-    // SKILLS
-    document.getElementById("skills").innerHTML =
-    (data.skills || []).map(s => `<li>${s}</li>`).join("");
+// ✅ FIX EXPERIENCE (INI YANG BIKIN 1 MAGANG DOANG SEBELUMNYA)
+document.getElementById("experience").innerHTML =
+Array.from(qsa("#experience > div > div"))
+.map(exp => {
+const title = exp.querySelector("h3")?.innerText || "";
+const date = exp.querySelector("em")?.innerText || "";
+const desc = Array.from(exp.querySelectorAll("li"))
+.map(li => "• " + li.innerText)
+.join("<br>");
 
-    // EXPERIENCE
-    document.getElementById("experience").innerHTML =
-    (data.experiences || []).map(e => `
-    <div class="item">
-    <b>${e.title || "-"}</b><br>
-    <small>${e.date || "-"}</small><br>
-    ${(e.desc || []).map(d => "• " + d).join("<br>")}
-    </div>
-    `).join("");
+return `
+<div class="item">
+<b>${title}</b><br>
+<small>${date}</small><br>
+${desc}
+</div>
+`;
+}).join("");
 
-    // EDUCATION
-    document.getElementById("education").innerHTML =
-    (data.education || []).map(e => `
-    <div class="item">
-    <b>${e.title}</b><br>
-    <small>${e.date}</small>
-    </div>
-    `).join("");
+// EDUCATION
+document.getElementById("education").innerHTML =
+Array.from(qsa("#education > div > div"))
+.map(e => `
+<div class="item">
+<b>${e.querySelector("h3")?.innerText || ""}</b><br>
+<small>${e.querySelector("em")?.innerText || ""}</small>
+</div>
+`).join("");
 
-    // CERT
-    document.getElementById("certificates").innerHTML =
-    (data.certificates || []).map(c => `<div class="item">• ${c}</div>`).join("");
+// CERT
+document.getElementById("certificates").innerHTML =
+Array.from(qsa("#certificates .card h3"))
+.map(c => `<div class="item">• ${c.innerText}</div>`)
+.join("");
 
-    // PROJECT
-    document.getElementById("projects").innerHTML =
-    (data.projects || []).map(p => `<div class="item">• ${p}</div>`).join("");
+// PROJECT
+document.getElementById("projects").innerHTML =
+Array.from(qsa("#projects .card h3"))
+.map(p => `<div class="item">• ${p.innerText}</div>`)
+.join("");
 
-    // PDF
-    function downloadPDF(){
-    html2pdf().set({
-    margin:5,
-    filename:"CV.pdf",
-    image:{type:"jpeg",quality:1},
-    html2canvas:{scale:2},
-    jsPDF:{unit:"mm",format:"a4"}
-    }).from(document.getElementById("cv")).save();
-    }
-
+// PDF
+function downloadPDF(){
+html2pdf().set({
+margin:5,
+filename:"CV.pdf",
+image:{type:"jpeg",quality:1},
+html2canvas:{scale:2},
+jsPDF:{unit:"mm",format:"a4"}
+}).from(document.getElementById("cv")).save();
+}
 </script>
 
 </body>
