@@ -18,10 +18,20 @@ skills.push(skill.getAttribute("title"));
 // EXPERIENCE (FIXED)
 const experiences = [];
 document.querySelectorAll("#experience > div").forEach(item => {
-experiences.push({
-title: item.querySelector("h3")?.innerText || "",
-date: item.querySelector("em")?.innerText || ""
+const title = item.querySelector("h3")?.innerText || "";
+const date = item.querySelector("em")?.innerText || "";
+// ambil semua bullet point
+const desc = [];
+item.querySelectorAll("li").forEach(li => {
+desc.push(li.innerText);
 });
+
+experiences.push({
+title,
+date,
+desc
+});
+
 });
 
 // EDUCATION

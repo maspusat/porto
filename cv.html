@@ -216,22 +216,19 @@ document.getElementById("skills").appendChild(li);
 });
 
 // EXPERIENCE
-qsa("#experience > div").forEach(div=>{
-let title = div.querySelector("h3")?.innerText || "";
-let date = div.querySelector("em")?.innerText || "";
-let ul = div.querySelectorAll("li");
+data.experiences.forEach(item => {
+let html = `
+<div class="item">
+<b>${item.title}</b><br>
+<small>${item.date}</small><br>
+`;
 
-let text = `<div class="item">
-<b>${title}</b><br>
-<small>${date}</small><br>`;
-
-ul.forEach(li=>{
-text += `• ${li.innerText}<br>`;
+item.desc.forEach(d => {
+html += `• ${d}<br>`;
 });
 
-text += `</div>`;
-
-document.getElementById("experience").innerHTML += text;
+html += `</div><br>`;
+document.getElementById("experience").innerHTML += html;
 });
 
 // EDUCATION
