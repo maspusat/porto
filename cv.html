@@ -10,28 +10,28 @@
 <style>
 body{
 margin:0;
-padding:20px;
+padding:0;
 background:#ddd;
 font-family:Arial;
 }
 
-/* A4 FIX 1 HALAMAN */
+/* FIX A4 STABLE */
 #cv{
 width:210mm;
 height:297mm;
 background:#fff;
-margin:auto;
-padding:18px;
+margin:0 auto;
+padding:14mm;
 box-sizing:border-box;
 overflow:hidden;
 }
 
-/* tombol */
+/* BUTTON */
 button{
 position:fixed;
-top:20px;
-right:20px;
-padding:10px 15px;
+top:15px;
+right:15px;
+padding:10px 14px;
 background:#2563eb;
 color:#fff;
 border:none;
@@ -39,12 +39,12 @@ cursor:pointer;
 border-radius:6px;
 }
 
-/* HEADER */
+/* HEADER (FIX SHIFT ISSUE) */
 .header{
 display:flex;
-gap:18px;
+gap:15px;
 align-items:flex-start;
-margin-bottom:10px;
+margin-bottom:8px;
 }
 
 /* FOTO 4x6 */
@@ -56,66 +56,65 @@ border:1.5px solid #000;
 border-radius:4px;
 }
 
-/* NAMA */
+/* NAME */
 h1{
 margin:0;
-font-size:30px;
+font-size:28px;
 line-height:1.1;
 }
 
 h3{
-margin:3px 0 6px 0;
-font-size:15px;
+margin:2px 0 6px 0;
+font-size:14px;
 color:#444;
 font-weight:normal;
 }
 
-/* KONTAK */
+/* CONTACT RAPAT */
 .contact{
-font-size:13px;
-line-height:1.5;
+font-size:12.5px;
+line-height:1.4;
 }
 
 .contact p{
 margin:2px 0;
-display:flex;
-align-items:center;
-gap:6px;
 }
 
 /* SECTION */
 .section{
-margin-top:10px;
+margin-top:8px;
 }
 
 .section h2{
-font-size:15px;
-border-bottom:2px solid #000;
-padding-bottom:3px;
-margin-bottom:6px;
+font-size:14px;
+margin:0 0 5px 0;
+border-bottom:1.5px solid #000;
+padding-bottom:2px;
 }
 
 /* ITEM */
 .item{
 margin-bottom:6px;
+font-size:13px;
 }
 
 small{
+font-size:11.5px;
 color:#555;
-font-size:12px;
 }
 
 /* ABOUT */
 .about{
-text-align:justify;
 font-size:13px;
+text-align:justify;
 line-height:1.4;
+margin:0;
 }
 
 /* LIST */
 ul{
-padding-left:18px;
 margin:0;
+padding-left:16px;
 font-size:13px;
 }
 </style>
@@ -145,13 +144,13 @@ font-size:13px;
   </div>
 </div>
 
-<!-- ABOUT -->
+<!-- PROFILE -->
 <div class="section">
 <h2>Profil</h2>
 <p id="about" class="about"></p>
 </div>
 
-<!-- SKILLS -->
+<!-- SKILL -->
 <div class="section">
 <h2>Keahlian</h2>
 <ul id="skills"></ul>
@@ -195,26 +194,17 @@ document.getElementById("photo").src = qs("#home img")?.src || "";
 document.getElementById("name").innerText = qs("#home h1")?.innerText || "";
 document.getElementById("title").innerText = qs("#home p")?.innerText || "";
 
-/* ABOUT */
+/* PROFILE */
 document.getElementById("about").innerText = qs("#about p")?.innerText || "";
 
 /* CONTACT */
 const box = qs("#cv-data");
 
-document.getElementById("phone").innerHTML =
-"📱 " + (box?.dataset.phone || "-");
-
-document.getElementById("email").innerHTML =
-"📧 " + (box?.dataset.email || "-");
-
-document.getElementById("location").innerHTML =
-"📍 " + (box?.dataset.location || "-");
-
-document.getElementById("github").innerHTML =
-"💻 " + (box?.dataset.github || "-");
-
-document.getElementById("portfolio").innerHTML =
-"🌐 " + (box?.dataset.portfolio || "-");
+document.getElementById("phone").innerText = "📱 " + (box?.dataset.phone || "-");
+document.getElementById("email").innerText = "📧 " + (box?.dataset.email || "-");
+document.getElementById("location").innerText = "📍 " + (box?.dataset.location || "-");
+document.getElementById("github").innerText = "💻 " + (box?.dataset.github || "-");
+document.getElementById("portfolio").innerText = "🌐 " + (box?.dataset.portfolio || "-");
 
 /* SKILLS */
 document.getElementById("skills").innerHTML =
@@ -222,14 +212,16 @@ Array.from(qsa("#skills i"))
 .map(i => `<li>${i.getAttribute("title")}</li>`)
 .join(" ");
 
-/* EXPERIENCE */
+/* EXPERIENCE (ONLY 2 POINT) */
 document.getElementById("experience").innerHTML =
 Array.from(qsa("#experience > div > div"))
 .map(exp => {
 const title = exp.querySelector("h3")?.innerText || "";
 const date = exp.querySelector("em")?.innerText || "";
+
+/* ambil 2 poin penting */
 const desc = Array.from(exp.querySelectorAll("li"))
-.slice(0, 2) // 🔥 ambil hanya 2 poin penting
+.slice(0, 2)
 .map(li => "• " + li.innerText)
 .join("<br>");
 
@@ -242,7 +234,7 @@ ${desc}
 `;
 }).join("");
 
-/* EDUCATION (HANYA D3 SISTEM INFORMASI) */
+/* EDUCATION (ONLY D3 SISTEM INFORMASI) */
 document.getElementById("education").innerHTML =
 Array.from(qsa("#education > div > div"))
 .filter(e => (e.querySelector("h3")?.innerText || "").includes("D3 Sistem Informasi"))
@@ -265,15 +257,27 @@ Array.from(qsa("#projects .card h3"))
 .map(p => `<div class="item">• ${p.innerText}</div>`)
 .join("");
 
-/* PDF */
+/* PDF FIX (ANTI HEADER TURUN) */
 function downloadPDF(){
-html2pdf().set({
-margin:5,
-filename:"CV_AtalarikSatriaDinata.pdf",
-image:{type:"jpeg",quality:1},
-html2canvas:{scale:2},
-jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}
-}).from(document.getElementById("cv")).save();
+html2pdf()
+.set({
+margin: 0,
+filename: "CV_Atalarik.pdf",
+image: { type: "jpeg", quality: 1 },
+html2canvas: {
+scale: 2,
+scrollY: 0,
+useCORS: true
+},
+jsPDF: {
+unit: "mm",
+format: "a4",
+orientation: "portrait"
+},
+pagebreak: { mode: ["css", "legacy"] }
+})
+.from(document.getElementById("cv"))
+.save();
 }
 
 </script>
