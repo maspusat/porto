@@ -26,17 +26,6 @@ font-family:Arial;
   overflow:hidden;
 }
 
-html, body{
-  /* margin:0;
-  padding:0; */
-  height:auto;
-}
-
-/* cegah html2pdf bikin page tambahan */
-.section, .header{
-  page-break-inside: avoid;
-}
-
 /* BUTTON */
 button{
 position:fixed;
@@ -270,28 +259,24 @@ Array.from(qsa("#projects .card h3"))
 
 /* PDF FIX (ANTI HEADER TURUN) */
 function downloadPDF(){
-const element = document.getElementById("cv");
-
 html2pdf()
 .set({
-  margin: 0,
-  filename: "CV_Atalarik.pdf",
-  image: { type: "jpeg", quality: 1 },
-  html2canvas: {
-    scale: 2,
-    scrollY: 0,
-    useCORS: true
-  },
-  jsPDF: {
-    unit: "mm",
-    format: "a4",
-    orientation: "portrait"
-  },
-  pagebreak: {
-    mode: ["avoid-all", "css", "legacy"]
-  }
+margin: 0,
+filename: "CV_Atalarik.pdf",
+image: { type: "jpeg", quality: 1 },
+html2canvas: {
+scale: 2,
+scrollY: 0,
+useCORS: true
+},
+jsPDF: {
+unit: "mm",
+format: "a4",
+orientation: "portrait"
+},
+pagebreak: { mode: ["css", "legacy"] }
 })
-.from(element)
+.from(document.getElementById("cv"))
 .save();
 }
 
