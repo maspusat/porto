@@ -10,96 +10,85 @@
 <style>
 body{
 margin:0;
-padding:0;
+padding:20px;
 background:#ddd;
 font-family:Arial;
 }
 
-/* A4 FIX + CENTER */
 #cv{
 width:210mm;
 min-height:297mm;
 background:#fff;
-margin:10px auto;
-padding:18mm 18mm 15mm 18mm;
+margin:auto;
+padding:25px;
 box-sizing:border-box;
 }
 
-/* BUTTON */
+/* tombol */
 button{
 position:fixed;
-top:15px;
-right:15px;
-padding:8px 12px;
+top:20px;
+right:20px;
+padding:10px 15px;
 background:#2563eb;
 color:#fff;
 border:none;
 cursor:pointer;
 border-radius:6px;
-font-size:12px;
 }
 
-/* HEADER LEBIH RAPI */
+/* HEADER DIPERBAIKI */
 .header{
 display:flex;
-gap:12px;              /* sebelumnya 20px */
+gap:15px;
 align-items:flex-start;
-margin-bottom:12px;    /* lebih rapat */
+margin-bottom:10px;
 }
 
-/* FOTO LEBIH KECIL SEDIKIT BIAR PADAT */
+/* FOTO 3x4 (KOTAK PORTRAIT) */
 .header img{
-width:95px;
-height:95px;
-border-radius:50%;
+width:90px;
+height:120px; /* rasio 3:4 */
 object-fit:cover;
-border:2px solid #000;
+border:1.5px solid #000;
+border-radius:4px; /* sedikit rounded ATS aman */
 }
 
-/* TEKS HEADER LEBIH RAPI */
-.header h1{
+/* NAMA LEBIH BESAR SEDIKIT */
+h1{
 margin:0;
-font-size:22px;
-line-height:1.2;
+font-size:28px;
+line-height:1.1;
 }
 
-.header h3{
+h3{
 margin:2px 0 6px 0;
-font-size:14px;
-font-weight:normal;
+font-size:15px;
 color:#444;
-line-height:1.2;
+font-weight:normal;
 }
 
-/* CONTACT RAPAT */
+/* CONTACT DIPADATKAN */
 .header p{
-margin:2px 0;     /* ini kunci biar gak renggang */
-font-size:12px;
+margin:2px 0;
+font-size:12.5px;
 line-height:1.2;
 }
 
-/* SECTION JARAK DIKURANGI */
 .section{
-margin-top:10px;
+margin-top:12px;
 }
 
 .section h2{
-font-size:14px;
+font-size:15px;
 border-bottom:2px solid #000;
-padding-bottom:2px;
+padding-bottom:3px;
 margin-bottom:6px;
 }
 
-/* ITEM LEBIH COMPACT */
-.item{
-margin-bottom:6px;
-font-size:13px;
-}
+.item{margin-bottom:8px;}
 
-small{
-color:#555;
-font-size:12px;
-}
+small{color:#555;font-size:12px;}
 
 .about{
 text-align:justify;
@@ -108,10 +97,10 @@ line-height:1.4;
 }
 
 ul{
-padding-left:16px;
+padding-left:18px;
 margin:0;
+font-size:13px;
 }
-
 </style>
 </head>
 
