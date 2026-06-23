@@ -1,471 +1,308 @@
 <!DOCTYPE html>
-
 <html lang="id">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CV ATS</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-
 body{
 margin:0;
-padding:20px;
+padding:0;
 background:#ddd;
-font-family:Arial,sans-serif;
+font-family:Arial;
 }
 
-button{
-
-position:fixed;
-
-top:20px;
-
-right:20px;
-
-padding:10px 16px;
-
-border:none;
-
-border-radius:6px;
-
-background:#2563eb;
-
-color:#fff;
-
-cursor:pointer;
-
-z-index:999;
-}
-
+/* ===== CONTAINER FIX ===== */
 #cv{
-
-width:794px;
-
-min-height:1123px;
-
+width:800px;
 background:#fff;
-
-margin:auto;
-
-padding:28px;
-
+margin:0 auto;
+padding:25px;
 box-sizing:border-box;
+overflow:hidden;
 }
 
+/* BUTTON */
+button{
+position:fixed;
+top:15px;
+right:15px;
+padding:10px 14px;
+background:#2563eb;
+color:#fff;
+border:none;
+cursor:pointer;
+border-radius:6px;
+}
+
+/* ===== HEADER ===== */
 .header{
-
 display:flex;
-
-gap:18px;
-
-margin-bottom:12px;
+gap:15px;
+align-items:flex-start;
+margin-bottom:10px;
 }
 
 .header img{
-
-width:100px;
-
+width:110px;
 height:150px;
-
 object-fit:cover;
-
 border:1px solid #000;
+border-radius:4px;
 }
 
-.header-right{
-
-flex:1;
-}
-
+/* NAME */
 h1{
-
 margin:0;
-
-font-size:28px;
+font-size:26px;
+line-height:1.1;
 }
 
 h3{
-
-margin:3px 0 8px 0;
-
-font-size:15px;
-
+margin:3px 0 6px 0;
+font-size:14px;
 font-weight:normal;
-
-color:#555;
+color:#444;
 }
 
+/* CONTACT */
 .contact{
-
-font-size:13px;
-
-line-height:1.5;
+font-size:12.5px;
+line-height:1.4;
 }
 
 .contact p{
-
 margin:2px 0;
 }
 
+/* SECTION */
 .section{
-
 margin-top:10px;
 }
 
 .section h2{
-
-font-size:15px;
-
-margin:0 0 6px;
-
-padding-bottom:3px;
-
-border-bottom:2px solid #000;
+font-size:14px;
+margin:0 0 6px 0;
+border-bottom:1px solid #000;
+padding-bottom:2px;
 }
 
-.about{
-
-font-size:13px;
-
-line-height:1.4;
-
-text-align:justify;
-}
-
-ul{
-
-margin:0;
-
-padding-left:18px;
-
-font-size:13px;
-}
-
+/* ITEM */
 .item{
-
+margin-bottom:6px;
 font-size:13px;
-
-margin-bottom:8px;
 }
 
 small{
-
-font-size:12px;
-
-color:#666;
+font-size:11.5px;
+color:#555;
 }
 
-</style>
+/* ABOUT */
+.about{
+font-size:13px;
+text-align:justify;
+line-height:1.4;
+margin:0;
+}
 
+/* LIST */
+ul{
+margin:0;
+padding-left:16px;
+font-size:13px;
+}
+</style>
 </head>
 
 <body>
 
-<button onclick="downloadPDF()">
-
-Download PDF
-
-</button>
+<button onclick="downloadPDF()">Download PDF</button>
 
 <div id="cv">
 
+<!-- HEADER -->
 <div class="header">
+  <img id="photo">
 
-<img id="photo">
+  <div>
+    <h1 id="name"></h1>
+    <h3 id="title"></h3>
 
-<div class="header-right">
-
-<h1 id="name"></h1>
-
-<h3 id="title"></h3>
-
-<div class="contact">
-
-<p id="phone"></p>
-
-<p id="email"></p>
-
-<p id="location"></p>
-
-<p id="github"></p>
-
-<p id="portfolio"></p>
-
+    <div class="contact">
+      <p id="phone"></p>
+      <p id="email"></p>
+      <p id="location"></p>
+      <p id="github"></p>
+      <p id="portfolio"></p>
+    </div>
+  </div>
 </div>
 
-</div>
-
-</div>
-
+<!-- PROFILE -->
 <div class="section">
-
 <h2>Profil</h2>
-
 <p id="about" class="about"></p>
-
 </div>
 
+<!-- SKILL -->
 <div class="section">
-
 <h2>Keahlian</h2>
-
 <ul id="skills"></ul>
-
 </div>
 
+<!-- EXPERIENCE -->
 <div class="section">
-
 <h2>Pengalaman</h2>
-
 <div id="experience"></div>
-
 </div>
 
+<!-- EDUCATION -->
 <div class="section">
-
 <h2>Pendidikan</h2>
-
 <div id="education"></div>
-
 </div>
 
+<!-- CERT -->
 <div class="section">
-
 <h2>Sertifikat</h2>
-
 <div id="certificates"></div>
-
 </div>
 
+<!-- PROJECT -->
 <div class="section">
-
 <h2>Proyek</h2>
-
 <div id="projects"></div>
-
 </div>
 
 </div>
 
 <script>
 
+/* SOURCE WINDOW */
 const source = window.opener.document;
 
-const qs=(el)=>source.querySelector(el);
+const qs = (el) => source.querySelector(el);
+const qsa = (el) => source.querySelectorAll(el);
 
-const qsa=(el)=>source.querySelectorAll(el);
+/* ===== HEADER (FIX NAME HILANG) ===== */
+document.getElementById("photo").src =
+qs("#home img")?.src || "";
 
+document.getElementById("name").innerText =
+qs("#home h1")?.innerText || "Nama Tidak Ditemukan";
 
-/* HEADER */
+document.getElementById("title").innerText =
+qs("#home p")?.innerText || "";
 
-photo.src=qs("#home img")?.src || "";
+/* PROFILE */
+document.getElementById("about").innerText =
+qs("#about p")?.innerText || "";
 
-name.innerText=qs("#home h1")?.innerText || "";
+/* CONTACT */
+const box = qs("#cv-data");
 
-title.innerText=qs("#home p")?.innerText || "";
+document.getElementById("phone").innerText = "📱 " + (box?.dataset.phone || "-");
+document.getElementById("email").innerText = "📧 " + (box?.dataset.email || "-");
+document.getElementById("location").innerText = "📍 " + (box?.dataset.location || "-");
+document.getElementById("github").innerText = "💻 " + (box?.dataset.github || "-");
+document.getElementById("portfolio").innerText = "🌐 " + (box?.dataset.portfolio || "-");
 
-
-/* PROFIL */
-
-about.innerText=qs("#about p")?.innerText || "";
-
-
-/* KONTAK */
-
-const box=qs("#cv-data");
-
-phone.innerText="📱 "+(box?.dataset.phone || "-");
-
-email.innerText="📧 "+(box?.dataset.email || "-");
-
-location.innerText="📍 "+(box?.dataset.location || "-");
-
-github.innerText="💻 "+(box?.dataset.github || "-");
-
-portfolio.innerText="🌐 "+(box?.dataset.portfolio || "-");
-
-
-/* SKILL */
-
-skills.innerHTML=
-
+/* SKILLS */
+document.getElementById("skills").innerHTML =
 Array.from(qsa("#skills i"))
-
-.map(i=>`<li>${i.title}</li>`)
-
+.map(i => `<li>${i.getAttribute("title")}</li>`)
 .join("");
 
-
-
-/* EXPERIENCE */
-
-experience.innerHTML=
-
+/* EXPERIENCE (2 POINT SAJA) */
+document.getElementById("experience").innerHTML =
 Array.from(qsa("#experience > div > div"))
+.map(exp => {
+const title = exp.querySelector("h3")?.innerText || "";
+const date = exp.querySelector("em")?.innerText || "";
 
-.map(exp=>{
-
-const title=
-
-exp.querySelector("h3")?.innerText || "";
-
-const date=
-
-exp.querySelector("em")?.innerText || "";
-
-
-const desc=
-
-Array.from(exp.querySelectorAll("li"))
-
-.slice(0,2)
-
-.map(li=>"• "+li.innerText)
-
+const desc = Array.from(exp.querySelectorAll("li"))
+.slice(0, 2)
+.map(li => "• " + li.innerText)
 .join("<br>");
 
-
-return`
-
+return `
 <div class="item">
-
 <b>${title}</b><br>
-
 <small>${date}</small><br>
-
 ${desc}
-
 </div>
-
 `;
+}).join("");
 
-})
-
-.join("");
-
-
-
-/* EDUCATION */
-
-education.innerHTML=
-
+/* EDUCATION (D3 ONLY FILTER OPTIONAL) */
+document.getElementById("education").innerHTML =
 Array.from(qsa("#education > div > div"))
-
-.filter(e=>
-
-(e.querySelector("h3")?.innerText || "")
-
-.includes("D3 Sistem Informasi")
-
-)
-
-.map(e=>`
-
+.filter(e => (e.querySelector("h3")?.innerText || "").includes("D3"))
+.map(e => `
 <div class="item">
-
-<b>${e.querySelector("h3")?.innerText}</b><br>
-
-<small>${e.querySelector("em")?.innerText}</small>
-
+<b>${e.querySelector("h3")?.innerText || ""}</b><br>
+<small>${e.querySelector("em")?.innerText || ""}</small>
 </div>
-
-`)
-
-.join("");
-
+`).join("");
 
 
 /* CERT */
-
-certificates.innerHTML=
-
+document.getElementById("certificates").innerHTML =
 Array.from(qsa("#certificates .card h3"))
-
-.map(c=>
-
-`<div class="item">• ${c.innerText}</div>`
-
-)
-
+.map(c => `<div class="item">• ${c.innerText}</div>`)
 .join("");
-
-
 
 /* PROJECT */
-
-projects.innerHTML=
-
+document.getElementById("projects").innerHTML =
 Array.from(qsa("#projects .card h3"))
-
-.map(p=>
-
-`<div class="item">• ${p.innerText}</div>`
-
-)
-
+.map(p => `<div class="item">• ${p.innerText}</div>`)
 .join("");
 
-
-
-/* PDF */
-
+/* ===== PDF FIX (ANTI MIRING + 1 PAGE MAX) ===== */
 function downloadPDF(){
 
-const element=
-
-document.getElementById("cv");
+const element = document.getElementById("cv");
 
 html2pdf()
-
 .set({
-
-margin:0,
-
-filename:"CV_Atalarik.pdf",
-
-image:{
-
-type:"jpeg",
-
-quality:1
-
-},
-
-html2canvas:{
-
-scale:2,
-
-useCORS:true
-
-},
-
-jsPDF:{
-
-unit:"pt",
-
-format:"a4",
-
-orientation:"portrait"
-
-}
-
+    margin:0,
+    filename:"CV_Atalarik.pdf",
+    image:{ type:"jpeg", quality:1 },
+    html2canvas:{
+        scale:2,
+        scrollX:0,
+        scrollY:0,
+        useCORS:true
+    },
+    jsPDF:{
+        unit:"pt",
+        format:"a4",
+        orientation:"portrait"
+    },
+    pagebreak:{
+        mode:["avoid-all"]
+    }
 })
-
 .from(element)
+.toPdf()
+.get("pdf")
+.then(function(pdf){
 
-.save();
+    // 🔥 HAPUS HALAMAN 2 JIKA ADA
+    while(pdf.internal.getNumberOfPages() > 1){
+        pdf.deletePage(2);
+    }
+
+    pdf.save("CV_Atalarik.pdf");
+});
 
 }
 
 </script>
 
 </body>
-
 </html>
