@@ -2,47 +2,47 @@ function collectPortfolioData() {
 
 const personal = document.getElementById("cv-data");
 
+const q = (s) => document.querySelector(s);
+const qa = (s) => Array.from(document.querySelectorAll(s));
+
 // HOME
-const name = document.querySelector("#home h1")?.innerText || " ";
-const title = document.querySelector("#home p")?.innerText || "";
+const name = q("#home h1")?.innerText || "";
+const title = q("#home p")?.innerText || "";
 
 // ABOUT
-const about = document.querySelector("#about p")?.innerText || "";
+const about = q("#about p")?.innerText || "";
 
 // SKILLS
-const skills = Array.from(document.querySelectorAll("#skills i"))
+const skills = qa("#skills i")
 .map(i => i.getAttribute("title") || "");
 
 // EXPERIENCE
-const experiences = Array.from(document.querySelectorAll("#experience > div"))
-.map(item => {
+const experiences = qa("#experience > div").map(item => {
 
 const title = item.querySelector("h3")?.innerText || "";
 const date = item.querySelector("em")?.innerText || "";
 
-const desc = Array.from(item.querySelectorAll("li"))
-.map(li => li.innerText || "");
+const desc = qa.call(item, "li").map(li => li.innerText || "");
 
 return { title, date, desc };
 });
 
 // EDUCATION
-const education = Array.from(document.querySelectorAll("#education > div"))
-.map(item => ({
+const education = qa("#education > div").map(item => ({
 title: item.querySelector("h3")?.innerText || "",
 date: item.querySelector("em")?.innerText || ""
 }));
 
 // CERT
-const certificates = Array.from(document.querySelectorAll("#certificates .card h3"))
-.map(el => el.innerText || "");
+const certificates = qa("#certificates .card h3")
+.map(e => e.innerText || "");
 
 // PROJECT
-const projects = Array.from(document.querySelectorAll("#projects .card h3"))
-.map(el => el.innerText || "");
+const projects = qa("#projects .card h3")
+.map(e => e.innerText || "");
 
 // PHOTO
-const photo = document.querySelector("#home img")?.src || "";
+const photo = q("#home img")?.src || "";
 
 const data = {
 name,
@@ -63,23 +63,22 @@ portfolio: personal?.dataset?.portfolio || "",
 linkedin: personal?.dataset?.linkedin || ""
 };
 
-// DEBUG WAJIB
-console.log("CV DATA:", data);
-
+console.log("FULL DATA:", data);
 return data;
 }
 
+// BUTTON
 document.getElementById("resumeBtn").addEventListener("click", () => {
 
 const data = collectPortfolioData();
 
-// 🔥 penting: validasi dulu
-if(!data.name || data.name.trim() === ""){
-alert("Data kosong, cek selector #home h1");
+if(!data.name){
+alert("Data kosong");
 return;
 }
 
 sessionStorage.setItem("portfolioData", JSON.stringify(data));
 
 window.open("cv.html", "_blank");
+
 });

@@ -164,73 +164,71 @@ color:#555;
 </div>
 
 <script>
+    const data = JSON.parse(sessionStorage.getItem("portfolioData"));
 
-const data = JSON.parse(sessionStorage.getItem("portfolioData"));
+    console.log("CV DATA:", data);
 
-console.log("DATA MASUK CV:", data);
+    if(!data){
+    alert("Data CV kosong");
+    throw new Error("No Data");
+    }
 
-// ❗ HARD STOP kalau null
-if(!data){
-alert("Data CV kosong / sessionStorage tidak terbaca");
-throw new Error("No CV data");
-}
+    // HEADER
+    document.getElementById("photo").src = data.photo || "";
+    document.getElementById("name").innerText = data.name || "-";
+    document.getElementById("title").innerText = data.title || "-";
 
-// HEADER
-document.getElementById("photo").src = data.photo || "";
-document.getElementById("name").innerText = data.name || "-";
-document.getElementById("title").innerText = data.title || "-";
+    // CONTACT
+    document.getElementById("phone").innerText = "📱 " + (data.phone || "-");
+    document.getElementById("email").innerText = "📧 " + (data.email || "-");
+    document.getElementById("location").innerText = "📍 " + (data.location || "-");
+    document.getElementById("github").innerText = "💻 " + (data.github || "-");
+    document.getElementById("portfolio").innerText = "🌐 " + (data.portfolio || "-");
 
-// CONTACT
-document.getElementById("phone").innerText = "📱 " + (data.phone || "-");
-document.getElementById("email").innerText = "📧 " + (data.email || "-");
-document.getElementById("location").innerText = "📍 " + (data.location || "-");
-document.getElementById("github").innerText = "💻 " + (data.github || "-");
-document.getElementById("portfolio").innerText = "🌐 " + (data.portfolio || "-");
+    // ABOUT
+    document.getElementById("about").innerText = data.about || "-";
 
-// ABOUT
-document.getElementById("about").innerText = data.about || "-";
+    // SKILLS
+    document.getElementById("skills").innerHTML =
+    (data.skills || []).map(s => `<li>${s}</li>`).join("");
 
-// SKILLS
-(document.getElementById("skills")).innerHTML =
-(data.skills || []).map(s => `<li>${s}</li>`).join("");
+    // EXPERIENCE
+    document.getElementById("experience").innerHTML =
+    (data.experiences || []).map(e => `
+    <div class="item">
+    <b>${e.title || "-"}</b><br>
+    <small>${e.date || "-"}</small><br>
+    ${(e.desc || []).map(d => "• " + d).join("<br>")}
+    </div>
+    `).join("");
 
-// EXPERIENCE
-document.getElementById("experience").innerHTML =
-(data.experiences || []).map(exp => `
-<div class="item">
-<b>${exp.title || "-"}</b><br>
-<small>${exp.date || "-"}</small><br>
-${(exp.desc || []).map(d => "• " + d).join("<br>")}
-</div>
-`).join("");
+    // EDUCATION
+    document.getElementById("education").innerHTML =
+    (data.education || []).map(e => `
+    <div class="item">
+    <b>${e.title}</b><br>
+    <small>${e.date}</small>
+    </div>
+    `).join("");
 
-// EDUCATION
-document.getElementById("education").innerHTML =
-(data.education || []).map(ed => `
-<div class="item">
-<b>${ed.title}</b><br>
-<small>${ed.date}</small>
-</div>
-`).join("");
+    // CERT
+    document.getElementById("certificates").innerHTML =
+    (data.certificates || []).map(c => `<div class="item">• ${c}</div>`).join("");
 
-// CERT
-document.getElementById("certificates").innerHTML =
-(data.certificates || []).map(c => `<div class="item">• ${c}</div>`).join("");
+    // PROJECT
+    document.getElementById("projects").innerHTML =
+    (data.projects || []).map(p => `<div class="item">• ${p}</div>`).join("");
 
-// PROJECT
-document.getElementById("projects").innerHTML =
-(data.projects || []).map(p => `<div class="item">• ${p}</div>`).join("");
-
-// PDF
-function downloadPDF(){
-html2pdf().set({
-margin:5,
-filename:"CV.pdf",
-image:{type:"jpeg",quality:1},
-html2canvas:{scale:2},
-jsPDF:{unit:"mm",format:"a4"}
-}).from(document.getElementById("cv")).save();
-}
+    // PDF
+    function downloadPDF(){
+    html2pdf().set({
+    margin:5,
+    filename:"CV.pdf",
+    image:{type:"jpeg",quality:1},
+    html2canvas:{scale:2},
+    jsPDF:{unit:"mm",format:"a4"}
+    }).from(document.getElementById("cv")).save();
+    }
 
 </script>
 
