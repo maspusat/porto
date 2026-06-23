@@ -167,77 +167,68 @@ color:#555;
 
 const data = JSON.parse(sessionStorage.getItem("portfolioData"));
 
+console.log("DATA MASUK CV:", data);
+
+// ❗ HARD STOP kalau null
 if(!data){
-alert("Data CV tidak ditemukan");
-window.close();
+alert("Data CV kosong / sessionStorage tidak terbaca");
+throw new Error("No CV data");
 }
 
-// FOTO
-document.getElementById("photo").src = data.photo;
-
 // HEADER
-document.getElementById("name").innerText = data.name;
-document.getElementById("title").innerText = data.title;
+document.getElementById("photo").src = data.photo || "";
+document.getElementById("name").innerText = data.name || "-";
+document.getElementById("title").innerText = data.title || "-";
 
 // CONTACT
-document.getElementById("phone").innerText = "📱 " + data.phone;
-document.getElementById("email").innerText = "📧 " + data.email;
-document.getElementById("location").innerText = "📍 " + data.location;
-document.getElementById("github").innerText = "💻 " + data.github;
-document.getElementById("portfolio").innerText = "🌐 " + data.portfolio;
+document.getElementById("phone").innerText = "📱 " + (data.phone || "-");
+document.getElementById("email").innerText = "📧 " + (data.email || "-");
+document.getElementById("location").innerText = "📍 " + (data.location || "-");
+document.getElementById("github").innerText = "💻 " + (data.github || "-");
+document.getElementById("portfolio").innerText = "🌐 " + (data.portfolio || "-");
 
 // ABOUT
-document.getElementById("about").innerText = data.about;
+document.getElementById("about").innerText = data.about || "-";
 
 // SKILLS
-data.skills.forEach(item=>{
-let li = document.createElement("li");
-li.innerText = item;
-document.getElementById("skills").appendChild(li);
-});
+(document.getElementById("skills")).innerHTML =
+(data.skills || []).map(s => `<li>${s}</li>`).join("");
 
-// EXPERIENCE (3 MAGANG MASUK SEMUA)
-data.experiences.forEach(item=>{
-let div = document.createElement("div");
-
-div.innerHTML = `
-<b>${item.title}</b><br>
-<small>${item.date}</small><br>
-${item.desc.map(d => "• " + d).join("<br>")}
-`;
-
-document.getElementById("experience").appendChild(div);
-});
+// EXPERIENCE
+document.getElementById("experience").innerHTML =
+(data.experiences || []).map(exp => `
+<div class="item">
+<b>${exp.title || "-"}</b><br>
+<small>${exp.date || "-"}</small><br>
+${(exp.desc || []).map(d => "• " + d).join("<br>")}
+</div>
+`).join("");
 
 // EDUCATION
-data.education.forEach(item=>{
-document.getElementById("education").innerHTML += `
+document.getElementById("education").innerHTML =
+(data.education || []).map(ed => `
 <div class="item">
-<b>${item.title}</b><br>
-<small>${item.date}</small>
-</div>`;
-});
+<b>${ed.title}</b><br>
+<small>${ed.date}</small>
+</div>
+`).join("");
 
-// CERTIFICATE
-data.certificates.forEach(item=>{
-document.getElementById("certificates").innerHTML += `
-<div class="item">• ${item}</div>`;
-});
+// CERT
+document.getElementById("certificates").innerHTML =
+(data.certificates || []).map(c => `<div class="item">• ${c}</div>`).join("");
 
 // PROJECT
-data.projects.forEach(item=>{
-document.getElementById("projects").innerHTML += `
-<div class="item">• ${item}</div>`;
-});
+document.getElementById("projects").innerHTML =
+(data.projects || []).map(p => `<div class="item">• ${p}</div>`).join("");
 
-// PDF EXPORT
+// PDF
 function downloadPDF(){
 html2pdf().set({
 margin:5,
-filename:"CV_Atalarik_Satria_Dinata.pdf",
+filename:"CV.pdf",
 image:{type:"jpeg",quality:1},
 html2canvas:{scale:2},
-jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}
+jsPDF:{unit:"mm",format:"a4"}
 }).from(document.getElementById("cv")).save();
 }
 
